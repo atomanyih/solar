@@ -1,26 +1,5 @@
 var React = require('react');
-
-function timeToAngle(time) {
-  const secondsPastToday = time.getHours() * 60 * 60 + time.getMinutes() * 60 + time.getSeconds();
-  const secondsInDay = 24 * 60 * 60;
-  return secondsPastToday / secondsInDay * 2 * Math.PI - Math.PI / 2;
-}
-
-function dateToTimeString(date) {
-  const match = /(\d{2}:\d{2}):\d{2}/.exec(date.toTimeString());
-  return match[1];
-}
-
-function timeInputValueToDate(timeString) {
-  const date = new Date();
-
-  const match = /(\d{2}):(\d{2})/.exec(timeString);
-
-  date.setHours(match[1]);
-  date.setMinutes(match[2]);
-
-  return date
-}
+const DateTime = require('./date-time');
 
 const Clock = React.createClass({
   render() {
@@ -28,7 +7,7 @@ const Clock = React.createClass({
     const center = {x: 256, y: 256};
     const radius = 256;
 
-    const angle = timeToAngle(time);
+    const angle = time.toAngle();
 
     const handX = 256 + 256 * Math.cos(angle);
     const handY = 256 + 256 * Math.sin(angle);
@@ -51,19 +30,19 @@ const Clock = React.createClass({
 var App = React.createClass({
   getInitialState() {
     return {
-      date: new Date()
+      date: new DateTime()
     };
   },
   update(e) {
     this.setState({
-      date: timeInputValueToDate(e.target.value)
+      date: new DateTime(e.target.value)
     });
   },
   render() {
     const {date} = this.state;
     return (
       <div>
-        <input type="time" defaultValue={dateToTimeString(date)} onChange={this.update}/>
+        <input type="time" defaultValue={date.toString()} onChange={this.update}/>
         <Clock time={date}/>
       </div>
     );
