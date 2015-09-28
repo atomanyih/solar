@@ -6,6 +6,22 @@ function timeToAngle(time) {
   return secondsPastToday / secondsInDay * 2 * Math.PI - Math.PI / 2;
 }
 
+function dateToTimeString(date) {
+  const match = /(\d{2}:\d{2}):\d{2}/.exec(date.toTimeString());
+  return match[1];
+}
+
+function timeInputValueToDate(timeString) {
+  const date = new Date();
+
+  const match = /(\d{2}):(\d{2})/.exec(timeString);
+
+  date.setHours(match[1]);
+  date.setMinutes(match[2]);
+
+  return date
+}
+
 const Clock = React.createClass({
   render() {
     const {time} = this.props;
@@ -33,10 +49,22 @@ const Clock = React.createClass({
 });
 
 var App = React.createClass({
+  getInitialState() {
+    return {
+      date: new Date()
+    };
+  },
+  update(e) {
+    this.setState({
+      date: timeInputValueToDate(e.target.value)
+    });
+  },
   render() {
+    const {date} = this.state;
     return (
       <div>
-        <Clock time={new Date()}/>
+        <input type="time" defaultValue={dateToTimeString(date)} onChange={this.update}/>
+        <Clock time={date}/>
       </div>
     );
   }
