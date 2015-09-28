@@ -1,4 +1,4 @@
-var React = require('react');
+const React = require('react');
 const DateTime = require('./date-time');
 
 const Clock = React.createClass({
@@ -27,7 +27,7 @@ const Clock = React.createClass({
   }
 });
 
-var App = React.createClass({
+const App = React.createClass({
   getInitialState() {
     return {
       date: new DateTime()
