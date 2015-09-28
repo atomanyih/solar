@@ -33,3 +33,10 @@ html {
 .arc.night {
   fill: #1f252d;
 }
+
+text {
+  text-anchor: middle;
+  fill: white;
+  opacity: 0.5;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

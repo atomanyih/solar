@@ -3,6 +3,32 @@ const DateTime = require('./date-time');
 const Arc = require('./arc');
 const SunCalc = require('suncalc');
 
+const ClockHours = React.createClass({
+  render() {
+    const {center, radius} = this.props;
+
+    const numberRadius = radius - 20;
+
+    let times = [];
+    for (let i = 0; i < 24; i++) {
+      const angle = i / 24 * 2 * Math.PI - Math.PI / 2;
+      const x = center.x + numberRadius * Math.cos(angle);
+      const y = center.y + numberRadius * Math.sin(angle);
+
+      times.push(
+        <text x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
+      )
+    }
+
+    return (
+      <g>
+        <circle fill="black" cx={center.x} cy={center.y} r={radius}/>
+        {times}
+      </g>
+    );
+  }
+});
+
 const ClockHand = React.createClass({
   render() {
     const {center, radius, date} = this.props;
@@ -62,9 +88,9 @@ const Clock = React.createClass({
              startTime={night}
              endTime={dawn}/>
 
-        <circle fill="black" cx={center.x} cy={center.y} r={radius/2}/>
+        <ClockHours center={center} radius={radius/2}/>
 
-        <ClockHand center={center} radius={radius} date={time} />
+        <ClockHand center={center} radius={radius} date={time}/>
       </svg>
     );
   }
