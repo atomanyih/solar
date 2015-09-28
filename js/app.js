@@ -36,8 +36,8 @@ const Clock = React.createClass({
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
         <Arc className="nighttime-arc"
-             cx={center.x}
-             cy={center.y}
+             center={center}
+             radius={radius}
              startAngle={duskAngle}
              endAngle={dawnAngle}/>
 
