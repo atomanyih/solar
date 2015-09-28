@@ -17,7 +17,9 @@ function describeArc(x, y, radius, startAngle, endAngle){
   var d = [
     "M", x, y,
     "L", start.x, start.y,
-    "A", radius, radius, 0, arcSweep, 0, end.x, end.y
+    "A", radius, radius, 0, arcSweep, 0, end.x, end.y,
+    "L", x, y,
+
   ].join(" ");
 
   return d;
