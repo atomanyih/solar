@@ -3,9 +3,9 @@ html {
 }
 
 #clock-path {
-  stroke: white;
-  stroke-width: 3px;
-  fill: grey;
+  /*stroke: white;*/
+  /*stroke-width: 3px;*/
+  fill: #dbe9ff;
 }
 
 .clock-hand {
@@ -13,6 +13,23 @@ html {
   stroke-width: 2px;
 }
 
-.nighttime-arc {
-  fill: black;
+.arc {
+  /*stroke: white;*/
+  /*stroke-width: 2px;*/
+}
+
+.arc.civil-twilight {
+  fill: #86a3d5;
+}
+
+.arc.nautical-twilight {
+  fill: #4571bd;
+}
+
+.arc.astronomical-twilight {
+  fill: #253d67;
+}
+
+.arc.night {
+  fill: #1f252d;
 }

@@ -24,8 +24,11 @@ const Clock = React.createClass({
     const radius = 256;
 
     const times = SunCalc.getTimes(time.date, 37, -122);
-    const dawnTime = new DateTime(times.dawn);
-    const duskTime = new DateTime(times.dusk);
+    const civilTwilightStart = new DateTime(times.sunset);
+    const nauticalTwilightStart = new DateTime(times.dusk);
+    const astronomicalTwilightStart = new DateTime(times.nauticalDusk);
+    const night = new DateTime(times.night);
+    const dawn = new DateTime(times.dawn);
 
     return (
       <svg xmlns="http://www.w3.org/svg/2000"
@@ -35,11 +38,31 @@ const Clock = React.createClass({
 
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
-        <Arc className="nighttime-arc"
+        <Arc className="arc civil-twilight"
              center={center}
              radius={radius}
-             startTime={duskTime}
-             endTime={dawnTime}/>
+             startTime={civilTwilightStart}
+             endTime={nauticalTwilightStart}/>
+
+        <Arc className="arc nautical-twilight"
+             center={center}
+             radius={radius}
+             startTime={nauticalTwilightStart}
+             endTime={astronomicalTwilightStart}/>
+
+        <Arc className="arc astronomical-twilight"
+             center={center}
+             radius={radius}
+             startTime={astronomicalTwilightStart}
+             endTime={night}/>
+
+        <Arc className="arc night"
+             center={center}
+             radius={radius}
+             startTime={night}
+             endTime={dawn}/>
+
+        <circle fill="black" cx={center.x} cy={center.y} r={radius/2}/>
 
         <ClockHand center={center} radius={radius} date={time} />
       </svg>
