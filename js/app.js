@@ -3,17 +3,30 @@ const DateTime = require('./date-time');
 const Arc = require('./arc');
 const SunCalc = require('suncalc');
 
+function Circle(center, radius) {
+  return {
+    center: center,
+    radius: radius,
+    getPointAtAngle(angle){
+      return {
+        x: center.x + radius * Math.cos(angle),
+        y: center.y + radius * Math.sin(angle)
+      }
+    }
+  }
+}
+
 const ClockHours = React.createClass({
   render() {
-    const {center, radius} = this.props;
+    const {circle} = this.props;
+    const {center, radius} = circle;
 
-    const numberRadius = radius - 20;
+    const numberCircle = new Circle(center, radius - 20);
 
     let times = [];
     for (let i = 0; i < 24; i++) {
       const angle = i / 24 * 2 * Math.PI - Math.PI / 2;
-      const x = center.x + numberRadius * Math.cos(angle);
-      const y = center.y + numberRadius * Math.sin(angle);
+      const {x, y} = numberCircle.getPointAtAngle(angle);
 
       times.push(
         <text x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
@@ -31,11 +44,11 @@ const ClockHours = React.createClass({
 
 const ClockHand = React.createClass({
   render() {
-    const {center, radius, date} = this.props;
+    const {circle, date} = this.props;
+    const {center} = circle;
     const angle = date.toAngle();
 
-    const handX = center.x + radius * Math.cos(angle);
-    const handY = center.y + radius * Math.sin(angle);
+    const {x: handX, y: handY} = circle.getPointAtAngle(angle);
 
     return (
       <path className="clock-hand" d={`M ${center.x} ${center.y} L ${handX} ${handY}`}/>
@@ -48,6 +61,8 @@ const Clock = React.createClass({
     const {time} = this.props;
     const center = {x: 256, y: 256};
     const radius = 256;
+
+    const circle = new Circle(center, radius);
 
     const times = SunCalc.getTimes(time.date, 37, -122);
     const civilTwilightStart = new DateTime(times.sunset);
@@ -65,32 +80,28 @@ const Clock = React.createClass({
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
         <Arc className="arc civil-twilight"
-             center={center}
-             radius={radius}
+             circle={circle}
              startTime={civilTwilightStart}
              endTime={nauticalTwilightStart}/>
 
         <Arc className="arc nautical-twilight"
-             center={center}
-             radius={radius}
+             circle={circle}
              startTime={nauticalTwilightStart}
              endTime={astronomicalTwilightStart}/>
 
         <Arc className="arc astronomical-twilight"
-             center={center}
-             radius={radius}
+             circle={circle}
              startTime={astronomicalTwilightStart}
              endTime={night}/>
 
         <Arc className="arc night"
-             center={center}
-             radius={radius}
+             circle={circle}
              startTime={night}
              endTime={dawn}/>
 
-        <ClockHours center={center} radius={radius/2}/>
+        <ClockHours circle={new Circle(center, radius/2)}/>
 
-        <ClockHand center={center} radius={radius} date={time}/>
+        <ClockHand circle={circle} date={time}/>
       </svg>
     );
   }
