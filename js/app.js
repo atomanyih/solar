@@ -3,16 +3,25 @@ const DateTime = require('./date-time');
 const Arc = require('./arc');
 const SunCalc = require('suncalc');
 
+const ClockHand = React.createClass({
+  render() {
+    const {center, radius, date} = this.props;
+    const angle = date.toAngle();
+
+    const handX = center.x + radius * Math.cos(angle);
+    const handY = center.y + radius * Math.sin(angle);
+
+    return (
+      <path className="clock-hand" d={`M ${center.x} ${center.y} L ${handX} ${handY}`}/>
+    );
+  }
+});
+
 const Clock = React.createClass({
   render() {
     const {time} = this.props;
     const center = {x: 256, y: 256};
     const radius = 256;
-
-    const angle = time.toAngle();
-
-    const handX = 256 + 256 * Math.cos(angle);
-    const handY = 256 + 256 * Math.sin(angle);
 
     const times = SunCalc.getTimes(time.date, 37, -122);
     const dawnAngle = (new DateTime(times.dawn)).toAngle();
@@ -32,8 +41,7 @@ const Clock = React.createClass({
              startAngle={duskAngle}
              endAngle={dawnAngle}/>
 
-        <path className="clock-hand" d={`M ${center.x} ${center.y} L ${handX} ${handY}`}/>
-
+        <ClockHand center={center} radius={radius} date={time} />
       </svg>
     );
   }
