@@ -20,12 +20,8 @@ function timeInputValueToDate(timeString) {
   return date
 }
 
-export default function DateTime(timeString) {
-  let date = new Date();
-
-  if(timeString) {
-    date = timeInputValueToDate(timeString);
-  }
+function DateTime(date) {
+  date = date || new Date();
 
   return {
     toAngle() {
@@ -36,3 +32,10 @@ export default function DateTime(timeString) {
     }
   }
 }
+
+DateTime.fromString = function(timeString) {
+  console.log('asdas');
+  return new DateTime(timeInputValueToDate(timeString));
+};
+
+export default DateTime
