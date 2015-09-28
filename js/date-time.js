@@ -29,7 +29,8 @@ function DateTime(date) {
     },
     toString() {
       return dateToTimeString(date);
-    }
+    },
+    date: date
   }
 }
 

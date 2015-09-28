@@ -14,7 +14,7 @@ const Clock = React.createClass({
     const handX = 256 + 256 * Math.cos(angle);
     const handY = 256 + 256 * Math.sin(angle);
 
-    const times = SunCalc.getTimes(new Date().setHours(12), 37, -122);
+    const times = SunCalc.getTimes(time.date, 37, -122);
     const dawnAngle = (new DateTime(times.dawn)).toAngle();
     const duskAngle = (new DateTime(times.dusk)).toAngle();
 
