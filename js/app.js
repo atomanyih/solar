@@ -24,8 +24,8 @@ const Clock = React.createClass({
     const radius = 256;
 
     const times = SunCalc.getTimes(time.date, 37, -122);
-    const dawnAngle = (new DateTime(times.dawn)).toAngle();
-    const duskAngle = (new DateTime(times.dusk)).toAngle();
+    const dawnTime = new DateTime(times.dawn);
+    const duskTime = new DateTime(times.dusk);
 
     return (
       <svg xmlns="http://www.w3.org/svg/2000"
@@ -38,8 +38,8 @@ const Clock = React.createClass({
         <Arc className="nighttime-arc"
              center={center}
              radius={radius}
-             startAngle={duskAngle}
-             endAngle={dawnAngle}/>
+             startTime={duskTime}
+             endTime={dawnTime}/>
 
         <ClockHand center={center} radius={radius} date={time} />
       </svg>

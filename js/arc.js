@@ -27,8 +27,10 @@ function describeArc(x, y, radius, startAngle, endAngle){
 
 const Arc = React.createClass({
   render() {
-    const {center, radius, startAngle, endAngle, ...others} = this.props;
+    const {center, radius, startTime, endTime, ...others} = this.props;
 
+    const startAngle = startTime.toAngle();
+    const endAngle = endTime.toAngle();
 
     return (
       <path d={`${describeArc(center.x, center.y, radius, startAngle, endAngle)}`} {...others}/>
