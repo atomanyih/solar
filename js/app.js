@@ -34,7 +34,7 @@ const ClockHours = React.createClass({
 
       times.push(
         <g>
-          <path stroke="black" d={`M ${innerX} ${innerY} L ${outerX} ${outerY}`}/>
+          <path className="tick" d={`M ${innerX} ${innerY} L ${outerX} ${outerY}`}/>
           <text x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
         </g>
       )
