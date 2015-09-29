@@ -63,13 +63,9 @@ const ClockHand = React.createClass({
   }
 });
 
-const Clock = React.createClass({
+const SunClock = React.createClass({
   render() {
-    const {time} = this.props;
-    const center = {x: 256, y: 256};
-    const radius = 256;
-
-    const circle = new Circle(center, radius);
+    const {time, circle} = this.props;
 
     const times = SunCalc.getTimes(time.date, 37, -122);
     const civilTwilightStart = new DateTime(times.sunset);
@@ -129,6 +125,57 @@ const Clock = React.createClass({
     });
 
     return (
+      <g className="clock sun">
+        {arcs}
+      </g>
+    )
+  }
+});
+
+const MoonClock = React.createClass({
+  render() {
+    const {time, circle} = this.props;
+
+    const times = SunCalc.getMoonTimes(time.date, 37, -122);
+    const aboveHorizonStart = new DateTime(times.rise);
+    const belowHorizonStart = new DateTime(times.set);
+
+
+    const ranges = [
+      {
+        class: 'below-horizon',
+        start: belowHorizonStart,
+        end: aboveHorizonStart
+      }
+    ];
+
+    const arcs = ranges.map((range) => {
+      return (
+        <Arc className={`arc ${range.class}`}
+             circle={circle}
+             startTime={range.start}
+             endTime={range.end}/>
+      )
+    });
+
+    return (
+      <g className="clock moon">
+        <circle className="above-horizon" cx={circle.center.x} cy={circle.center.y} r={circle.radius} />
+        {arcs}
+      </g>
+    )
+  }
+});
+
+const Clock = React.createClass({
+  render() {
+    const {time} = this.props;
+    const center = {x: 256, y: 256};
+    const radius = 256;
+
+    const circle = new Circle(center, radius);
+
+    return (
       <svg xmlns="http://www.w3.org/svg/2000"
            viewBox="0 0 512 512"
            width={512}
@@ -136,11 +183,12 @@ const Clock = React.createClass({
 
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
-        {arcs}
+        <SunClock circle={circle} time={time}/>
+        <MoonClock circle={new Circle(center, radius/2)} time={time}/>
 
         <ClockHand circle={circle} date={time}/>
 
-        <ClockHours circle={new Circle(center, radius/2)}/>
+        <ClockHours circle={new Circle(center, radius/2 - 20)}/>
       </svg>
     );
   }

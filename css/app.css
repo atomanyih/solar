@@ -68,3 +68,11 @@ html {
 .zenometer .area.below-horizon {
   fill: #1f252d;
 }
+
+.clock.moon .above-horizon{
+  fill: #999999;
+}
+
+.clock.moon .below-horizon {
+  fill: #333333;
+}
