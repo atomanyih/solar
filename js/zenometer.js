@@ -1,15 +1,39 @@
 const React = require('react');
 const SunCalc = require('suncalc');
 
+function Scale(min, max, height) {
+  return {
+    at(pin) {
+      return (max - pin)/(max - min) * height;
+    }
+  };
+}
+
+const Range = React.createClass({
+  render() {
+    const {min, max} = this.props;
+    const width = 5;
+
+    return (
+      <path className="pin" d={`M ${width} ${max} L ${1} ${max} L ${1} ${min} L ${width} ${min}`} />
+    )
+  }
+});
+
 const Zenometer = React.createClass({
   render() {
     const {time} = this.props;
     const sunPosition = SunCalc.getPosition(time.date,  37, -122);
 
-    const width = 64;
+    const width = 32;
     const height = 512;
 
-    const pinPosition = 256 - sunPosition.altitude / (Math.PI / 2) * 256;
+    const radianAltitudeScale = new Scale(-Math.PI/2, Math.PI/2, 512);
+
+    const pinPosition = radianAltitudeScale.at(sunPosition.altitude);
+    const times = SunCalc.getTimes(time.date, 37, -122);
+    const maxPosition = radianAltitudeScale.at(SunCalc.getPosition(times.solarNoon, 37, -122).altitude);
+    const minPosition = radianAltitudeScale.at(SunCalc.getPosition(times.nadir, 37, -122).altitude);
 
     return (
       <svg xmlns="http://www.w3.org/svg/2000"
@@ -24,7 +48,8 @@ const Zenometer = React.createClass({
         <rect className="area nautical-twilight" x={0} y={height/2 + 6/180 * height} width={width} height={6/180 * height} />
         <rect className="area astronomical-twilight" x={0} y={height/2 + 12/180 * height} width={width} height={6/180 * height} />
 
-        <path className="pin" d={`M ${0} ${pinPosition} L ${width} ${pinPosition}`} />
+        <path className="pin" d={`M ${10} ${pinPosition} L ${width} ${pinPosition}`} />
+        <Range min={minPosition} max={maxPosition} />
       </svg>
     );
   }
