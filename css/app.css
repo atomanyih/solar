@@ -1,5 +1,5 @@
 html {
-  background-color: black;
+  /*background-color: black;*/
 }
 
 #clock-path {
@@ -34,9 +34,13 @@ html {
   fill: #1f252d;
 }
 
-text {
-  text-anchor: middle;
+.hours circle {
   fill: white;
+}
+.hours text {
+  text-anchor: middle;
+  fill: black;
   opacity: 0.5;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
 }

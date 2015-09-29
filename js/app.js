@@ -34,8 +34,8 @@ const ClockHours = React.createClass({
     }
 
     return (
-      <g>
-        <circle fill="black" cx={center.x} cy={center.y} r={radius}/>
+      <g className="hours">
+        <circle cx={center.x} cy={center.y} r={radius}/>
         {times}
       </g>
     );
@@ -98,10 +98,9 @@ const Clock = React.createClass({
              circle={circle}
              startTime={night}
              endTime={dawn}/>
+        <ClockHand circle={circle} date={time}/>
 
         <ClockHours circle={new Circle(center, radius/2)}/>
-
-        <ClockHand circle={circle} date={time}/>
       </svg>
     );
   }
