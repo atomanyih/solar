@@ -37,10 +37,28 @@ html {
 .hours circle {
   fill: white;
 }
+
 .hours text {
   text-anchor: middle;
   fill: black;
   opacity: 0.5;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
+}
+
+.zenometer {
+  margin-left: 30px;
+}
+
+.zenometer .pin {
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.zenometer .area.above-horizon {
+  fill: #dbe9ff;
+}
+
+.zenometer .area.below-horizon {
+  fill: #1f252d;
 }

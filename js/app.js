@@ -2,6 +2,7 @@ const React = require('react');
 const DateTime = require('./date-time');
 const Arc = require('./arc');
 const SunCalc = require('suncalc');
+const Zenometer = require('./zenometer');
 
 function Circle(center, radius) {
   return {
@@ -129,6 +130,7 @@ const App = React.createClass({
       <div>
         <input type="time" defaultValue={date.toString()} onChange={this.update}/>
         <Clock time={date}/>
+        <Zenometer time={date}/>
       </div>
     );
   }
