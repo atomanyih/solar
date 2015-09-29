@@ -76,7 +76,57 @@ const Clock = React.createClass({
     const nauticalTwilightStart = new DateTime(times.dusk);
     const astronomicalTwilightStart = new DateTime(times.nauticalDusk);
     const night = new DateTime(times.night);
-    const dawn = new DateTime(times.dawn);
+    const astronomicalDawnStart = new DateTime(times.nightEnd);
+    const nauticalDawnStart = new DateTime(times.nauticalDawn);
+    const civilDawnStart = new DateTime(times.dawn);
+    const dawn = new DateTime(times.sunrise);
+
+    const ranges = [
+      {
+        class: 'civil-twilight',
+        start: civilTwilightStart,
+        end: nauticalTwilightStart
+      },
+      {
+        class: 'nautical-twilight',
+        start: nauticalTwilightStart,
+        end: astronomicalTwilightStart
+      },
+      {
+        class: 'astronomical-twilight',
+        start: astronomicalTwilightStart,
+        end: night
+      },
+      {
+        class: 'night',
+        start: night,
+        end: astronomicalDawnStart
+      },
+      {
+        class: 'astronomical-dawn',
+        start: astronomicalDawnStart,
+        end: nauticalDawnStart
+      },
+      {
+        class: 'nautical-dawn',
+        start: nauticalDawnStart,
+        end: civilDawnStart
+      },
+      {
+        class: 'civil-dawn',
+        start: civilDawnStart,
+        end: dawn
+      }
+    ];
+
+    const arcs = ranges.map((range) => {
+      return (
+        <Arc className={`arc ${range.class}`}
+             circle={circle}
+             startTime={range.start}
+             endTime={range.end}/>
+      )
+    });
 
     return (
       <svg xmlns="http://www.w3.org/svg/2000"
@@ -86,25 +136,8 @@ const Clock = React.createClass({
 
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
-        <Arc className="arc civil-twilight"
-             circle={circle}
-             startTime={civilTwilightStart}
-             endTime={nauticalTwilightStart}/>
+        {arcs}
 
-        <Arc className="arc nautical-twilight"
-             circle={circle}
-             startTime={nauticalTwilightStart}
-             endTime={astronomicalTwilightStart}/>
-
-        <Arc className="arc astronomical-twilight"
-             circle={circle}
-             startTime={astronomicalTwilightStart}
-             endTime={night}/>
-
-        <Arc className="arc night"
-             circle={circle}
-             startTime={night}
-             endTime={dawn}/>
         <ClockHand circle={circle} date={time}/>
 
         <ClockHours circle={new Circle(center, radius/2)}/>

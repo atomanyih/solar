@@ -18,15 +18,15 @@ html {
   /*stroke-width: 2px;*/
 }
 
-.civil-twilight {
+.civil-twilight, .civil-dawn {
   fill: #86a3d5;
 }
 
-.nautical-twilight {
+.nautical-twilight, .nautical-dawn {
   fill: #4571bd;
 }
 
-.astronomical-twilight {
+.astronomical-twilight, .astronomical-dawn {
   fill: #253d67;
 }
 
