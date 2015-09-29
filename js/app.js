@@ -28,8 +28,14 @@ const ClockHours = React.createClass({
       const angle = i / 24 * 2 * Math.PI - Math.PI / 2;
       const {x, y} = numberCircle.getPointAtAngle(angle);
 
+      const {x: innerX, y: innerY} = (new Circle(center, radius - 5)).getPointAtAngle(angle);
+      const {x: outerX, y: outerY} = circle.getPointAtAngle(angle);
+
       times.push(
-        <text x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
+        <g>
+          <path stroke="black" d={`M ${innerX} ${innerY} L ${outerX} ${outerY}`}/>
+          <text x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
+        </g>
       )
     }
 
