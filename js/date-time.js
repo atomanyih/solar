@@ -1,7 +1,18 @@
+const secondsInDay = 24 * 60 * 60;
+
 function timeToAngle(time) {
   const secondsPastToday = time.getHours() * 60 * 60 + time.getMinutes() * 60 + time.getSeconds();
-  const secondsInDay = 24 * 60 * 60;
   return secondsPastToday / secondsInDay * 2 * Math.PI - Math.PI / 2;
+}
+
+function secondsToHMS(secondsInDay) {
+  const hours = Math.floor(secondsInDay / (60 * 60));
+  const minutes = Math.floor((secondsInDay - 60 * 60 * hours) / 60);
+
+  return {
+    hours: hours,
+    minutes: minutes
+  }
 }
 
 function dateToTimeString(date) {
@@ -35,8 +46,15 @@ function DateTime(date) {
 }
 
 DateTime.fromString = function(timeString) {
-  console.log('asdas');
   return new DateTime(timeInputValueToDate(timeString));
+};
+
+DateTime.fromAngle = function(angle) {
+  const time = secondsToHMS(angle / (2 * Math.PI) * secondsInDay);
+  const date = new Date();
+  date.setHours(time.hours);
+  date.setMinutes(time.minutes);
+  return new DateTime(date);
 };
 
 export default DateTime

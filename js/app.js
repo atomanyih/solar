@@ -17,6 +17,22 @@ function Circle(center, radius) {
   }
 }
 
+function cartesianToAngle(x, y) {
+  if (x > 0) {
+    return Math.atan(y / x);
+  } else if (x < 0 && y >= 0) {
+    return Math.atan(y / x) + Math.PI;
+  } else if (x < 0 && y < 0) {
+    return Math.atan(y / x) - Math.PI;
+  } else if (x == 0 && y > 0) {
+    return Math.PI / 2;
+  } else if (x == 0 && y < 0) {
+    return -Math.PI / 2;
+  } else if (x == 0 && y == 0) {
+
+  }
+}
+
 const ClockHours = React.createClass({
   render() {
     const {circle} = this.props;
@@ -160,7 +176,7 @@ const MoonClock = React.createClass({
 
     return (
       <g className="clock moon">
-        <circle className="above-horizon" cx={circle.center.x} cy={circle.center.y} r={circle.radius} />
+        <circle className="above-horizon" cx={circle.center.x} cy={circle.center.y} r={circle.radius}/>
         {arcs}
       </g>
     )
@@ -168,6 +184,16 @@ const MoonClock = React.createClass({
 });
 
 const Clock = React.createClass({
+  onClick(e) {
+    const {left, top} = e.target.getBoundingClientRect();
+    const xWithinElement = e.clientX - left;
+    const yWithinElement = e.clientY - top;
+    const xAroundCircle = xWithinElement - 256;
+    const yAroundCircle = 256 - yWithinElement;
+    this.props.handleTimePick(
+      Math.PI / 2 - cartesianToAngle(xAroundCircle, yAroundCircle)
+    );
+  },
   render() {
     const {time} = this.props;
     const center = {x: 256, y: 256};
@@ -175,11 +201,13 @@ const Clock = React.createClass({
 
     const circle = new Circle(center, radius);
 
+    const width = 512;
+    const height = 512;
     return (
       <svg xmlns="http://www.w3.org/svg/2000"
            viewBox="0 0 512 512"
-           width={512}
-           height={512}>
+           width={width}
+           height={height}>
 
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
@@ -189,6 +217,7 @@ const Clock = React.createClass({
         <ClockHand circle={circle} date={time}/>
 
         <ClockHours circle={new Circle(center, radius/2 - 20)}/>
+        <rect fill="white" opacity="0" x={0} y={0} width={width} height={height} onClick={this.onClick}/>
       </svg>
     );
   }
@@ -200,17 +229,16 @@ const App = React.createClass({
       date: new DateTime()
     };
   },
-  update(e) {
+  updateTimeFromClock(angle) {
     this.setState({
-      date: DateTime.fromString(e.target.value)
+      date: DateTime.fromAngle(angle)
     });
   },
   render() {
     const {date} = this.state;
     return (
       <div>
-        <input type="time" defaultValue={date.toString()} onChange={this.update}/>
-        <Clock time={date}/>
+        <Clock time={date} handleTimePick={this.updateTimeFromClock}/>
         <Zenometer time={date}/>
       </div>
     );
