@@ -61,8 +61,8 @@ html {
   fill: none;
 }
 
-.zenometer .area.above-horizon {
-  fill: #dbe9ff;
+.zenometer .area.above-horizon, #clock-path {
+  fill: #C4DBFF;
 }
 
 .zenometer .area.below-horizon {
@@ -70,9 +70,9 @@ html {
 }
 
 .clock.moon .above-horizon{
-  fill: #999999;
+  fill: #ffebc2;
 }
 
 .clock.moon .below-horizon {
-  fill: #333333;
+  fill: #4b4129;
 }
