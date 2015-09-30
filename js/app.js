@@ -3,6 +3,7 @@ const DateTime = require('./date-time');
 const Arc = require('./arc');
 const SunCalc = require('suncalc');
 const Zenometer = require('./zenometer');
+const {cartesianToAngle} = require('./polar');
 
 function Circle(center, radius) {
   return {
@@ -14,22 +15,6 @@ function Circle(center, radius) {
         y: center.y + radius * Math.sin(angle)
       }
     }
-  }
-}
-
-function cartesianToAngle(x, y) {
-  if (x > 0) {
-    return Math.atan(y / x);
-  } else if (x < 0 && y >= 0) {
-    return Math.atan(y / x) + Math.PI;
-  } else if (x < 0 && y < 0) {
-    return Math.atan(y / x) - Math.PI;
-  } else if (x == 0 && y > 0) {
-    return Math.PI / 2;
-  } else if (x == 0 && y < 0) {
-    return -Math.PI / 2;
-  } else if (x == 0 && y == 0) {
-
   }
 }
 
@@ -191,7 +176,7 @@ const Clock = React.createClass({
     const xAroundCircle = xWithinElement - 256;
     const yAroundCircle = 256 - yWithinElement;
     this.props.handleTimePick(
-      Math.PI / 2 - cartesianToAngle(xAroundCircle, yAroundCircle)
+      cartesianToAngle(xAroundCircle, yAroundCircle)
     );
   },
   render() {

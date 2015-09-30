@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var rename = require('gulp-rename');
 var webpack = require('webpack-stream');
 var connect = require('gulp-connect');
+var plugins = require('gulp-load-plugins')();
 
 gulp.task('build-js', function() {
  return gulp.src('js/app.js')
@@ -30,3 +31,25 @@ gulp.task('webserver', ['build-js'], function() {
 });
 
 gulp.task('default', ['setup-watchers', 'webserver']);
+
+gulp.task('jasmine', function() {
+  var plugin = new (require('gulp-jasmine-browser/webpack/jasmine-plugin'))();
+  return gulp.src('spec/**/*_spec.js')
+    .pipe(webpack({
+      devtool: 'eval',
+      watch: true,
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader?stage=0&optional[]=runtime&loose=true'
+          }
+        ]
+      },
+      output: {filename: 'spec.js' },
+      plugins: [plugin]
+    }))
+    .pipe(plugins.jasmineBrowser.specRunner())
+    .pipe(plugins.jasmineBrowser.server(plugin.whenReady));
+});
