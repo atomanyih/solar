@@ -20,10 +20,10 @@ function Circle(center, radius) {
 
 const ClockHours = React.createClass({
   render() {
-    const {circle} = this.props;
+    const {circle, time} = this.props;
     const {center, radius} = circle;
 
-    const numberCircle = new Circle(center, radius - 20);
+    const numberCircle = new Circle(center, radius - 15);
 
     let times = [];
     for (let i = 0; i < 24; i++) {
@@ -36,7 +36,7 @@ const ClockHours = React.createClass({
       times.push(
         <g>
           <path className="tick" d={`M ${innerX} ${innerY} L ${outerX} ${outerY}`}/>
-          <text x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
+          <text className="label" x={x} y={y} transform={`rotate(${angle / Math.PI * 180} ${x} ${y})`}>{i % 12 || 12}</text>
         </g>
       )
     }
@@ -45,6 +45,7 @@ const ClockHours = React.createClass({
       <g className="hours">
         <circle cx={center.x} cy={center.y} r={radius}/>
         {times}
+        <text className="current" x={center.x} y={center.y + 15}>{time.toString()}</text>
       </g>
     );
   }
@@ -201,7 +202,7 @@ const Clock = React.createClass({
 
         <ClockHand circle={circle} date={time}/>
 
-        <ClockHours circle={new Circle(center, radius/2 - 20)}/>
+        <ClockHours circle={new Circle(center, radius/2 - 20)} time={time}/>
         <rect fill="white" opacity="0" x={0} y={0} width={width} height={height} onClick={this.onClick}/>
       </svg>
     );

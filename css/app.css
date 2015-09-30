@@ -38,17 +38,26 @@ html {
   fill: white;
 }
 
-.hours text {
+text {
   text-anchor: middle;
   fill: black;
-  opacity: 0.5;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
+  opacity: 0.6;
+}
+
+.hours .label {
+  opacity: 0.3;
+}
+
+.hours .current {
+  font-weight: 100;
+  font-size: 42px;
 }
 
 .hours .tick {
   stroke: black;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .zenometer {

@@ -16,7 +16,7 @@ function secondsToHMS(secondsInDay) {
 }
 
 function dateToTimeString(date) {
-  const match = /(\d{2}:\d{2}):\d{2}/.exec(date.toTimeString());
+  const match = /(\d{2}:\d{2}:\d{2})/.exec(date.toTimeString());
   return match[1];
 }
 
