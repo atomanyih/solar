@@ -2,12 +2,6 @@ html {
   /*background-color: black;*/
 }
 
-#clock-path {
-  /*stroke: white;*/
-  /*stroke-width: 3px;*/
-  fill: #dbe9ff;
-}
-
 .clock-hand {
   stroke: white;
   stroke-width: 2px;
@@ -20,18 +14,22 @@ html {
 
 .civil-twilight, .civil-dawn {
   fill: #86a3d5;
+  stroke: #86a3d5;
 }
 
 .nautical-twilight, .nautical-dawn {
   fill: #4571bd;
+  stroke: #4571bd;
 }
 
 .astronomical-twilight, .astronomical-dawn {
   fill: #253d67;
+  stroke: #253d67;
 }
 
 .arc.night {
   fill: #1f252d;
+  stroke: #1f252d;
 }
 
 .hours circle {
@@ -72,6 +70,7 @@ text {
 
 .zenometer .area.above-horizon, #clock-path {
   fill: #C4DBFF;
+  stroke: #C4DBFF;
 }
 
 .zenometer .area.below-horizon {
