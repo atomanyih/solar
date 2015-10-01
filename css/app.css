@@ -79,9 +79,9 @@ text {
 }
 
 .clock.moon .above-horizon{
-  fill: #ffebc2;
+  fill: #FFF0D0;
 }
 
 .clock.moon .below-horizon {
-  fill: #4b4129;
+  fill: #6F685A;
 }
