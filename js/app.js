@@ -4,6 +4,7 @@ const Arc = require('./arc');
 const Zenometer = require('./zenometer');
 const {cartesianToAngle} = require('./polar');
 const Astronomy = require('./astronomy');
+const Map = require('./map');
 
 function Circle(center, radius) {
   return {
@@ -217,7 +218,10 @@ const App = React.createClass({
   getInitialState() {
     return {
       date: new DateTime(),
-      latitude: 37
+      coordinates: {
+        latitude: 37,
+        longitude: -122
+      }
     };
   },
   updateTimeFromClock(angle) {
@@ -225,19 +229,26 @@ const App = React.createClass({
       date: DateTime.fromAngle(angle)
     });
   },
-  updateLatitude(e) {
+  updatePosition(latitude, longitude) {
     this.setState({
-      latitude: e.target.value
+      coordinates: {
+        latitude: latitude,
+        longitude: longitude
+      }
     });
   },
   render() {
-    const {date, latitude} = this.state;
-    const astronomy = new Astronomy(latitude, -122);
+    const {date, coordinates} = this.state;
+    const astronomy = new Astronomy(coordinates.latitude, coordinates.longitude);
     return (
       <div>
-        <Clock time={date} handleTimePick={this.updateTimeFromClock} astronomy={astronomy}/>
-        <Zenometer time={date} astronomy={astronomy}/>
-        <input type="number" min={-90} max={90} onChange={this.updateLatitude} defaultValue={latitude}/>
+        <div>
+          <Clock time={date} handleTimePick={this.updateTimeFromClock} astronomy={astronomy}/>
+          <Zenometer time={date} astronomy={astronomy}/>
+        </div>
+        <div>
+          <Map coordinates={coordinates} onUpdatePosition={this.updatePosition}/>
+        </div>
       </div>
     );
   }
