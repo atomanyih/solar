@@ -4,7 +4,7 @@ const Arc = require('./arc');
 const Zenometer = require('./zenometer');
 const {cartesianToAngle} = require('./polar');
 const Astronomy = require('./astronomy');
-const Map = require('./map');
+const LocationControls = require('./location-controls');
 
 function Circle(center, radius) {
   return {
@@ -246,9 +246,7 @@ const App = React.createClass({
           <Clock time={date} handleTimePick={this.updateTimeFromClock} astronomy={astronomy}/>
           <Zenometer time={date} astronomy={astronomy}/>
         </div>
-        <div>
-          <Map coordinates={coordinates} onUpdatePosition={this.updatePosition}/>
-        </div>
+        <LocationControls coordinates={coordinates} onUpdatePosition={this.updatePosition}/>
       </div>
     );
   }

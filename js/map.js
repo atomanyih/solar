@@ -1,6 +1,6 @@
 const React = require('react');
 
-export default React.createClass({
+const Map = React.createClass({
   componentDidMount() {
     const {coordinates: {latitude, longitude}, onUpdatePosition} = this.props;
 
@@ -56,4 +56,16 @@ export default React.createClass({
       <div id="map"/>
     )
   }
-})
+});
+
+Map.withFallback = function(map, fallback) {
+  try {
+    google
+  } catch (e) {
+    return fallback();
+  }
+
+  return map();
+};
+
+export default Map
