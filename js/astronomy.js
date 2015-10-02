@@ -1,23 +1,28 @@
 const SunCalc = require('suncalc');
 
-const coordinates = [37, -122];
+function Astronomy(latitude, longitude) {
+  return {
+    getSunTimes(time) {
+      return SunCalc.getTimes(time.date, latitude, longitude);
+    },
 
-export function getSunTimes(time) {
-  return SunCalc.getTimes(time.date, ...coordinates);
+    getMoonTimes(time) {
+      return SunCalc.getMoonTimes(time.date, latitude, longitude);
+    },
+
+    getSunPosition(time) {
+      return SunCalc.getPosition(time.date, latitude, longitude);
+    },
+
+    getSunPositionRange(time) {
+      const times = SunCalc.getTimes(time.date, latitude, longitude);
+      const maxPosition = SunCalc.getPosition(times.solarNoon, latitude, longitude).altitude;
+      const minPosition = SunCalc.getPosition(times.nadir, latitude, longitude).altitude;
+
+      return [minPosition, maxPosition];
+    }
+  }
 }
 
-export function getMoonTimes(time) {
-  return SunCalc.getMoonTimes(time.date, ...coordinates);
-}
+export default Astronomy(37, -122);
 
-export function getSunPosition(time) {
-  return SunCalc.getPosition(time.date, ...coordinates);
-}
-
-export function getSunPositionRange(time) {
-  const times = SunCalc.getTimes(time.date, ...coordinates);
-  const maxPosition = SunCalc.getPosition(times.solarNoon, ...coordinates).altitude;
-  const minPosition = SunCalc.getPosition(times.nadir, ...coordinates).altitude;
-
-  return [minPosition, maxPosition];
-}
