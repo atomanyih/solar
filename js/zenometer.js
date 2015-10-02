@@ -1,5 +1,5 @@
 const React = require('react');
-const SunCalc = require('suncalc');
+const {getSunPosition, getSunPositionRange} = require('./astronomy');
 
 function Scale(min, max, height) {
   return {
@@ -23,7 +23,7 @@ const Range = React.createClass({
 const Zenometer = React.createClass({
   render() {
     const {time} = this.props;
-    const sunPosition = SunCalc.getPosition(time.date,  37, -122);
+    const sunPosition = getSunPosition(time);
 
     const width = 32;
     const height = 512;
@@ -31,9 +31,9 @@ const Zenometer = React.createClass({
     const radianAltitudeScale = new Scale(-Math.PI/2, Math.PI/2, 512);
 
     const pinPosition = radianAltitudeScale.at(sunPosition.altitude);
-    const times = SunCalc.getTimes(time.date, 37, -122);
-    const maxPosition = radianAltitudeScale.at(SunCalc.getPosition(times.solarNoon, 37, -122).altitude);
-    const minPosition = radianAltitudeScale.at(SunCalc.getPosition(times.nadir, 37, -122).altitude);
+    const positionRange = getSunPositionRange(time);
+    const maxPosition = radianAltitudeScale.at(positionRange[0]);
+    const minPosition = radianAltitudeScale.at(positionRange[1]);
 
     return (
       <svg xmlns="http://www.w3.org/svg/2000"

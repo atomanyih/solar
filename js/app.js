@@ -1,9 +1,9 @@
 const React = require('react');
 const DateTime = require('./date-time');
 const Arc = require('./arc');
-const SunCalc = require('suncalc');
 const Zenometer = require('./zenometer');
 const {cartesianToAngle} = require('./polar');
+const {getSunTimes, getMoonTimes} = require('./astronomy');
 
 function Circle(center, radius) {
   return {
@@ -69,7 +69,7 @@ const SunClock = React.createClass({
   render() {
     const {time, circle} = this.props;
 
-    const times = SunCalc.getTimes(time.date, 37, -122);
+    const times = getSunTimes(time);
     const civilTwilightStart = new DateTime(times.sunset);
     const nauticalTwilightStart = new DateTime(times.dusk);
     const astronomicalTwilightStart = new DateTime(times.nauticalDusk);
@@ -138,7 +138,7 @@ const MoonClock = React.createClass({
   render() {
     const {time, circle} = this.props;
 
-    const times = SunCalc.getMoonTimes(time.date, 37, -122);
+    const times = getMoonTimes(time);
     const aboveHorizonStart = new DateTime(times.rise);
     const belowHorizonStart = new DateTime(times.set);
 
