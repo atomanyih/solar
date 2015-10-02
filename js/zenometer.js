@@ -1,5 +1,4 @@
 const React = require('react');
-const {getSunPosition, getSunPositionRange} = require('./astronomy');
 
 function Scale(min, max, height) {
   return {
@@ -22,8 +21,8 @@ const Range = React.createClass({
 
 const Zenometer = React.createClass({
   render() {
-    const {time} = this.props;
-    const sunPosition = getSunPosition(time);
+    const {time, astronomy} = this.props;
+    const sunPosition = astronomy.getSunPosition(time);
 
     const width = 32;
     const height = 512;
@@ -31,7 +30,7 @@ const Zenometer = React.createClass({
     const radianAltitudeScale = new Scale(-Math.PI/2, Math.PI/2, 512);
 
     const pinPosition = radianAltitudeScale.at(sunPosition.altitude);
-    const positionRange = getSunPositionRange(time);
+    const positionRange = astronomy.getSunPositionRange(time);
     const maxPosition = radianAltitudeScale.at(positionRange[0]);
     const minPosition = radianAltitudeScale.at(positionRange[1]);
 

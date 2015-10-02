@@ -24,5 +24,5 @@ function Astronomy(latitude, longitude) {
   }
 }
 
-export default Astronomy(37, -122);
+export default Astronomy;
 

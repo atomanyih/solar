@@ -3,7 +3,7 @@ const DateTime = require('./date-time');
 const Arc = require('./arc');
 const Zenometer = require('./zenometer');
 const {cartesianToAngle} = require('./polar');
-const {getSunTimes, getMoonTimes} = require('./astronomy');
+const Astronomy = require('./astronomy');
 
 function Circle(center, radius) {
   return {
@@ -67,9 +67,9 @@ const ClockHand = React.createClass({
 
 const SunClock = React.createClass({
   render() {
-    const {time, circle} = this.props;
+    const {time, circle, astronomy} = this.props;
 
-    const times = getSunTimes(time);
+    const times = astronomy.getSunTimes(time);
     const civilTwilightStart = new DateTime(times.sunset);
     const nauticalTwilightStart = new DateTime(times.dusk);
     const astronomicalTwilightStart = new DateTime(times.nauticalDusk);
@@ -136,9 +136,9 @@ const SunClock = React.createClass({
 
 const MoonClock = React.createClass({
   render() {
-    const {time, circle} = this.props;
+    const {time, circle, astronomy} = this.props;
 
-    const times = getMoonTimes(time);
+    const times = astronomy.getMoonTimes(time);
     const aboveHorizonStart = new DateTime(times.rise);
     const belowHorizonStart = new DateTime(times.set);
 
@@ -185,7 +185,7 @@ const Clock = React.createClass({
     );
   },
   render() {
-    const {time} = this.props;
+    const {time, astronomy} = this.props;
     const center = {x: 256, y: 256};
     const radius = 256;
 
@@ -201,8 +201,8 @@ const Clock = React.createClass({
 
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
-        <SunClock circle={circle} time={time}/>
-        <MoonClock circle={new Circle(center, radius/2)} time={time}/>
+        <SunClock circle={circle} time={time} astronomy={astronomy}/>
+        <MoonClock circle={new Circle(center, radius/2)} time={time} astronomy={astronomy}/>
 
         <ClockHand circle={circle} date={time}/>
 
@@ -216,7 +216,8 @@ const Clock = React.createClass({
 const App = React.createClass({
   getInitialState() {
     return {
-      date: new DateTime()
+      date: new DateTime(),
+      latitude: 37
     };
   },
   updateTimeFromClock(angle) {
@@ -224,12 +225,19 @@ const App = React.createClass({
       date: DateTime.fromAngle(angle)
     });
   },
+  updateLatitude(e) {
+    this.setState({
+      latitude: e.target.value
+    });
+  },
   render() {
-    const {date} = this.state;
+    const {date, latitude} = this.state;
+    const astronomy = new Astronomy(latitude, -122);
     return (
       <div>
-        <Clock time={date} handleTimePick={this.updateTimeFromClock}/>
-        <Zenometer time={date}/>
+        <Clock time={date} handleTimePick={this.updateTimeFromClock} astronomy={astronomy}/>
+        <Zenometer time={date} astronomy={astronomy}/>
+        <input type="number" min={-90} max={90} onChange={this.updateLatitude} defaultValue={latitude}/>
       </div>
     );
   }
