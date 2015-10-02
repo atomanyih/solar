@@ -148,6 +148,11 @@ const MoonClock = React.createClass({
         class: 'below-horizon',
         start: belowHorizonStart,
         end: aboveHorizonStart
+      },
+      {
+        class: 'above-horizon',
+        start: aboveHorizonStart,
+        end: belowHorizonStart
       }
     ];
 
@@ -162,7 +167,6 @@ const MoonClock = React.createClass({
 
     return (
       <g className="clock moon">
-        <circle className="above-horizon" cx={circle.center.x} cy={circle.center.y} r={circle.radius}/>
         {arcs}
       </g>
     )
