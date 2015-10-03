@@ -17,4 +17,17 @@ describe('Circle', () => {
     });
   });
 
+  describe('#getAngleFromPoint', () => {
+    it('calculates angles clockwise from upwards where upwards is negative y', () => {
+      const circle = new Circle({x: 0, y: 0}, 1);
+
+      expect(circle.getAngleFromPoint({x: 0, y: -1})).toEqual(0);
+
+      expect(circle.getAngleFromPoint({x: 1, y: 0})).toEqual(Math.PI / 2);
+
+      expect(circle.getAngleFromPoint({x: 0, y: 1})).toEqual(Math.PI);
+
+      expect(circle.getAngleFromPoint({x: -1, y: 0})).toEqual(3 * Math.PI / 2);
+    });
+  });
 });

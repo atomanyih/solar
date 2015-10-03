@@ -1,7 +1,6 @@
 const React = require('react');
 
 const Arc = require('./arc');
-const {cartesianToAngle} = require('./polar');
 const DateTime = require('./date-time');
 const Circle = require('./circle');
 
@@ -166,10 +165,9 @@ const Clock = React.createClass({
     const {left, top} = e.target.getBoundingClientRect();
     const xWithinElement = e.clientX - left;
     const yWithinElement = e.clientY - top;
-    const xAroundCircle = xWithinElement - 256;
-    const yAroundCircle = 256 - yWithinElement;
+
     this.props.handleTimePick(
-      cartesianToAngle(xAroundCircle, yAroundCircle)
+      this.circle.getAngleFromPoint({x: xWithinElement, y: yWithinElement})
     );
   },
   render() {
@@ -177,7 +175,7 @@ const Clock = React.createClass({
     const center = {x: 256, y: 256};
     const radius = 256;
 
-    const circle = new Circle(center, radius);
+    this.circle = new Circle(center, radius);
 
     const width = 512;
     const height = 512;
@@ -189,10 +187,10 @@ const Clock = React.createClass({
 
         <circle id="clock-path" cx={center.x} cy={center.y} r={radius}/>
 
-        <SunClock circle={circle} time={time} astronomy={astronomy}/>
+        <SunClock circle={this.circle} time={time} astronomy={astronomy}/>
         <MoonClock circle={new Circle(center, radius/2)} time={time} astronomy={astronomy}/>
 
-        <ClockHand circle={circle} date={time}/>
+        <ClockHand circle={this.circle} date={time}/>
 
         <ClockHours circle={new Circle(center, radius/2 - 20)} time={time}/>
         <rect fill="white" opacity="0" x={0} y={0} width={width} height={height} onClick={this.onClick}/>

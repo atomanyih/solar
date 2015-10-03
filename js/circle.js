@@ -1,3 +1,5 @@
+const {cartesianToAngle} = require('./polar');
+
 function Circle(center, radius) {
   return {
     center: center,
@@ -7,6 +9,11 @@ function Circle(center, radius) {
         x: center.x + radius * Math.sin(angle),
         y: center.y - radius * Math.cos(angle)
       }
+    },
+    getAngleFromPoint(point) {
+      const xAroundCircle = point.x - center.x;
+      const yAroundCircle = -(point.y - center.y);
+      return cartesianToAngle(xAroundCircle, yAroundCircle)
     }
   }
 }
