@@ -40,8 +40,8 @@ const Zenometer = React.createClass({
            width={width}
            height={height}
            className="zenometer">
-        <rect className="area above-horizon" x={0} y={0} width={width} height={height/2} />
-        <rect className="area below-horizon" x={0} y={height/2} width={width} height={height/2} />
+        <rect className="area day" x={0} y={0} width={width} height={height/2} />
+        <rect className="area night" x={0} y={height/2} width={width} height={height/2} />
 
         <rect className="area civil-twilight" x={0} y={height/2} width={width} height={6/180 * height} />
         <rect className="area nautical-twilight" x={0} y={height/2 + 6/180 * height} width={width} height={6/180 * height} />

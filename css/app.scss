@@ -6,34 +6,14 @@ $nighttime-color: #1f252d;
 $moon-above-horizon-color: #FFF0D0;
 $moon-below-horizon-color: #6F685A;
 
-html {
-  /*background-color: black;*/
-}
-
 .clock-hand {
   stroke: white;
   stroke-width: 2px;
 }
 
-
-.civil-twilight, .civil-dawn {
-  fill: $civil-twilight-color;
-  stroke: $civil-twilight-color;
-}
-
-.nautical-twilight, .nautical-dawn {
-  fill: $nautical-twilight-color;
-  stroke: $nautical-twilight-color;
-}
-
-.astronomical-twilight, .astronomical-dawn {
-  fill: $astronomical-twilight-color;
-  stroke: $astronomical-twilight-color;
-}
-
-.arc.night {
-  fill: $nighttime-color;
-  stroke: $nighttime-color;
+@mixin filled($color) {
+  fill: $color;
+  stroke: $color;
 }
 
 .hours circle {
@@ -62,6 +42,28 @@ text {
   opacity: 0.3;
 }
 
+
+.day, #clock-path {
+  fill: $daytime-color;
+  stroke: $daytime-color;
+}
+
+.civil-twilight, .civil-dawn {
+@include filled($civil-twilight-color);
+}
+
+.nautical-twilight, .nautical-dawn {
+  @include filled($nautical-twilight-color);
+}
+
+.astronomical-twilight, .astronomical-dawn {
+  @include filled($astronomical-twilight-color);
+}
+
+.night {
+  @include filled($nighttime-color);
+}
+
 .zenometer {
   margin-left: 30px;
 }
@@ -72,16 +74,7 @@ text {
   fill: none;
 }
 
-.zenometer .area.above-horizon, #clock-path {
-  fill: $daytime-color;
-  stroke: $daytime-color;
-}
-
-.zenometer .area.below-horizon {
-  fill: $nighttime-color;
-}
-
-.clock.moon .above-horizon{
+.clock.moon .above-horizon {
   fill: $moon-above-horizon-color;
 }
 
