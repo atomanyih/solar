@@ -3,19 +3,7 @@ const React = require('react');
 const Arc = require('./arc');
 const {cartesianToAngle} = require('./polar');
 const DateTime = require('./date-time');
-
-function Circle(center, radius) {
-  return {
-    center: center,
-    radius: radius,
-    getPointAtAngle(angle){
-      return {
-        x: center.x + radius * Math.cos(angle),
-        y: center.y + radius * Math.sin(angle)
-      }
-    }
-  }
-}
+const Circle = require('./circle');
 
 const ClockHours = React.createClass({
   render() {
@@ -26,7 +14,7 @@ const ClockHours = React.createClass({
 
     let times = [];
     for (let i = 0; i < 24; i++) {
-      const angle = i / 24 * 2 * Math.PI - Math.PI / 2;
+      const angle = i / 24 * 2 * Math.PI;
       const {x, y} = numberCircle.getPointAtAngle(angle);
 
       const {x: innerX, y: innerY} = (new Circle(center, radius - 5)).getPointAtAngle(angle);

@@ -1,4 +1,6 @@
-const {cartesianToAngle} = require('../js/polar');
+require ('./spec-helper');
+
+const {cartesianToAngle, polarToCartesian} = require('../js/polar');
 
 describe('cartesianToAngle', () => {
   it('is positive on axes', () => {
@@ -26,3 +28,4 @@ describe('cartesianToAngle', () => {
     expect(cartesianToAngle(-1, 1)).toEqual(7 * Math.PI / 4);
   })
 });
+

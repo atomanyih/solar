@@ -2,7 +2,7 @@ const secondsInDay = 24 * 60 * 60;
 
 function timeToAngle(time) {
   const secondsPastToday = time.getHours() * 60 * 60 + time.getMinutes() * 60 + time.getSeconds();
-  return secondsPastToday / secondsInDay * 2 * Math.PI - Math.PI / 2;
+  return secondsPastToday / secondsInDay * 2 * Math.PI;
 }
 
 function secondsToHMS(secondsInDay) {

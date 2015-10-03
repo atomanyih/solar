@@ -1,16 +1,10 @@
 const React = require('react');
 
-function polarToCartesian(centerX, centerY, radius, angleInRadians) {
-  return {
-    x: centerX + (radius * Math.cos(angleInRadians)),
-    y: centerY + (radius * Math.sin(angleInRadians))
-  };
-}
+function describeArc(circle, startAngle, endAngle){
+  const {center: {x, y}, radius} = circle;
 
-function describeArc(x, y, radius, startAngle, endAngle){
-
-  var start = polarToCartesian(x, y, radius, endAngle);
-  var end = polarToCartesian(x, y, radius, startAngle);
+  var start = circle.getPointAtAngle(endAngle);
+  var end = circle.getPointAtAngle(startAngle);
 
   if(endAngle > startAngle) {
     var arcSweep = endAngle - startAngle <= Math.PI ? "0" : "1";
@@ -32,13 +26,14 @@ function describeArc(x, y, radius, startAngle, endAngle){
 const Arc = React.createClass({
   render() {
     const {circle, startTime, endTime, ...others} = this.props;
-    const {center, radius} = circle;
+
 
     const startAngle = startTime.toAngle();
     const endAngle = endTime.toAngle();
 
+
     return (
-      <path d={`${describeArc(center.x, center.y, radius, startAngle, endAngle)}`} {...others}/>
+      <path d={`${describeArc(circle, startAngle, endAngle)}`} {...others}/>
     );
   }
 });
