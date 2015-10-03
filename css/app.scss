@@ -1,3 +1,11 @@
+$daytime-color: #C4DBFF;
+$civil-twilight-color: #86a3d5;
+$nautical-twilight-color: #4571bd;
+$astronomical-twilight-color: #253d67;
+$nighttime-color: #1f252d;
+$moon-above-horizon-color: #FFF0D0;
+$moon-below-horizon-color: #6F685A;
+
 html {
   /*background-color: black;*/
 }
@@ -7,29 +15,25 @@ html {
   stroke-width: 2px;
 }
 
-.arc {
-  /*stroke: white;*/
-  /*stroke-width: 2px;*/
-}
 
 .civil-twilight, .civil-dawn {
-  fill: #86a3d5;
-  stroke: #86a3d5;
+  fill: $civil-twilight-color;
+  stroke: $civil-twilight-color;
 }
 
 .nautical-twilight, .nautical-dawn {
-  fill: #4571bd;
-  stroke: #4571bd;
+  fill: $nautical-twilight-color;
+  stroke: $nautical-twilight-color;
 }
 
 .astronomical-twilight, .astronomical-dawn {
-  fill: #253d67;
-  stroke: #253d67;
+  fill: $astronomical-twilight-color;
+  stroke: $astronomical-twilight-color;
 }
 
 .arc.night {
-  fill: #1f252d;
-  stroke: #1f252d;
+  fill: $nighttime-color;
+  stroke: $nighttime-color;
 }
 
 .hours circle {
@@ -69,20 +73,20 @@ text {
 }
 
 .zenometer .area.above-horizon, #clock-path {
-  fill: #C4DBFF;
-  stroke: #C4DBFF;
+  fill: $daytime-color;
+  stroke: $daytime-color;
 }
 
 .zenometer .area.below-horizon {
-  fill: #1f252d;
+  fill: $nighttime-color;
 }
 
 .clock.moon .above-horizon{
-  fill: #FFF0D0;
+  fill: $moon-above-horizon-color;
 }
 
 .clock.moon .below-horizon {
-  fill: #6F685A;
+  fill: $moon-below-horizon-color;
 }
 
 #map {
